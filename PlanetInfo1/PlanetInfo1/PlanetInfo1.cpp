@@ -1,7 +1,5 @@
 ﻿
 #include <iostream>
-#include <vector>
-#include <algorithm>
 using namespace std;
 
 class Planet
@@ -30,9 +28,9 @@ inline string Planet::get_name()
     return name; 
 }
 
-void Planet::set_name(string n) 
+void Planet::set_name(string NAME) 
 {
-    name = n;
+    name = NAME;
 }
 
 long int Planet::get_d() 
@@ -73,11 +71,8 @@ bool compareFunction(std::string a, std::string b) { return a < b; }
 void sort(Planet* p_l, int* s, int N) {
     Planet temp;
     int tempint;
-    for (int i = 0; i < N - 1; i++) {
-        
+    for (int i = 0; i < N - 1; i++) { 
         for (int j = 0; j < N - 1 - i; j++) {
-            
-            
             if (s[j] > s[j + 1]) {
                 tempint = s[j];
                 s[j] = s[j + 1];
@@ -85,10 +80,7 @@ void sort(Planet* p_l, int* s, int N) {
                 temp = p_l[j];
                 p_l[j] = p_l[j + 1];
                 p_l[j + 1] = temp;
-
-                
             }
-            
         }
     }
 }
@@ -100,6 +92,9 @@ void sort(Planet* p_l, char** s, int N) {
         {
             if (strcmp(s[i], s[j]) > 0)
             {
+                char* tempchar = s[i];
+                s[i] = s[j];
+                s[j] = tempchar;
                 Planet temp = p_l[i];
                 p_l[i] = p_l[j];
                 p_l[j] = temp;
@@ -120,10 +115,10 @@ bool contain_planet(Planet* p_l, string lk, int n) {
         }
     }
     return m;
-}
+}    
 
 int find_planet(Planet* p_l, string lk, int n) {
-    int f;
+    int f=0;
     for (int i = 0; i < n; i++) {
         if (p_l[i].get_name() == lk) {
             f = i;
@@ -293,11 +288,22 @@ int main()
                     cout << "введите есть ли жизнь на планете" << endl;
                     cin >> h_l;
                     bool t;
-                    (h_l == 1 || h_l == 0) ? t = true : t = false;
+                    if (h_l == 1 || h_l == 0) {
+                        t = true;
+                    }
+                    else {
+                        t = false;
+                    }
+                    
                     while (t != true) {
                         cout << "введите 1 или 0" << endl;
                         cin >> h_l;
-                        (h_l == 1 || h_l == 0) ? t = true : t = false;
+                        if (h_l == 1 || h_l == 0) {
+                            t = true;
+                        }
+                        else {
+                            t = false;
+                        }
                     }
                     planet_list[findplanet].set_h_l(h_l);
                     break;
@@ -332,16 +338,16 @@ int main()
                 cin >> parameter;
                 switch (parameter) {
                 case 1: {
-                    
-                    char** namech = new char* [n];
-                    for (int i = 0; i < n; i++)
-                        namech[i] = new char[30];
-                    for (int i = 0; i < n; i++) {
-                        for (int j = 0; j < n; j++) {
-                            namech[i][j] = planet_list[i].get_name()[j];
+                    Planet t;
+                    for (int i = 0; i < n; ++i) {
+                        for (int j = 0; j < n - 1 - i; ++j) {
+                            if (planet_list[j].get_name() > planet_list[j + 1].get_name()) {
+                                t = planet_list[j + 1];
+                                planet_list[j + 1] = planet_list[j];
+                                planet_list[j] = t;
+                            }
                         }
                     }
-                    sort(planet_list, namech, n);
                     break;
                 }
                 case 2: {
